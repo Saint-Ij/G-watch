@@ -1,0 +1,39 @@
+{
+  "name": "backend-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "start": "node index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "seed": "node seed.js",
+    "test": "node --test src/tests/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.20.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.12.0",
+    "pino": "^10.3.1",
+    "postgres": "^3.4.9",
+    "socket.io": "^4.8.3",
+    "uuid": "^14.0.2",
+    "zod": "^4.6.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
+  }
+}
