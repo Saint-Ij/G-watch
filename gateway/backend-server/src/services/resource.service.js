@@ -31,3 +31,26 @@ export async function getResourceByName(name) {
     .limit(1);
   return resource || null;
 }
+
+export async function updateResource(id, { name, category, sensitivity, description }) {
+  const updates = {};
+  if (name !== undefined) updates.name = name;
+  if (category !== undefined) updates.category = category;
+  if (sensitivity !== undefined) updates.sensitivity = sensitivity;
+  if (description !== undefined) updates.description = description;
+
+  const [resource] = await db
+    .update(dataResources)
+    .set(updates)
+    .where(eq(dataResources.id, id))
+    .returning();
+  return resource || null;
+}
+
+export async function deleteResource(id) {
+  const [deleted] = await db
+    .delete(dataResources)
+    .where(eq(dataResources.id, id))
+    .returning();
+  return deleted || null;
+}

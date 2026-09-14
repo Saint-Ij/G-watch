@@ -58,13 +58,15 @@ export function detectAnomalies(event, baseline) {
     }
   }
 
-  // 4. Excessive request volume
-  if (baseline.avgRequestsPerHour > 0) {
-    const ratio = (baseline.totalRequests || 0) / Math.max(baseline.avgRequestsPerHour, 1);
-    if (ratio > 20) {
+  // 4. Excessive request volume (compare recent rate to baseline hourly average)
+  if (baseline.avgRequestsPerHour > 0 && baseline.totalRequests > 0) {
+    // Estimate recent hourly rate from total requests over the baseline period
+    const recentHourlyRate = baseline.totalRequests / Math.max(1, 7 * 24);
+    const ratio = recentHourlyRate / baseline.avgRequestsPerHour;
+    if (ratio > 5) {
       anomalies.push({
         type: "excessive_volume",
-        message: `Request volume ${ratio.toFixed(0)}x normal`,
+        message: `Request volume ${ratio.toFixed(1)}x normal`,
       });
       score += 20;
     }
@@ -85,14 +87,11 @@ export function detectAnomalies(event, baseline) {
   const hour = new Date().getHours();
   if (hour >= 1 && hour <= 5) {
     if (baseline.normalHttpMethods?.length > 0) {
-      // Only flag if there's other anomaly context
-      if (anomalies.length > 0) {
-        anomalies.push({
-          type: "unusual_time",
-          message: `Request at unusual hour: ${hour}:00`,
-        });
-        score += 10;
-      }
+      anomalies.push({
+        type: "unusual_time",
+        message: `Request at unusual hour: ${hour}:00`,
+      });
+      score += 10;
     }
   }
 
@@ -105,10 +104,11 @@ export function detectAnomalies(event, baseline) {
 
 export function calculateRiskScore(detectionResult, permissionDenied) {
   let score = detectionResult.score;
+  const anomalies = [...detectionResult.anomalies];
 
   if (permissionDenied) {
     score += 50;
-    detectionResult.anomalies.push({
+    anomalies.push({
       type: "unauthorized_access",
       message: "Access to unauthorized resource",
     });
@@ -123,9 +123,9 @@ export function calculateRiskScore(detectionResult, permissionDenied) {
   else if (score <= 80) level = "high";
   else level = "critical";
 
-  const reasons = detectionResult.anomalies.map((a) => a.message);
+  const reasons = anomalies.map((a) => a.message);
 
-  return { score, level, reasons, anomalies: detectionResult.anomalies };
+  return { score, level, reasons, anomalies };
 }
 
 export function decideAction(riskLevel) {

@@ -22,6 +22,7 @@ const router = Router();
 const createIntegrationSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
+  targetUrl: z.string().url().optional(),
 });
 
 const updateIntegrationSchema = z.object({
@@ -29,6 +30,7 @@ const updateIntegrationSchema = z.object({
   description: z.string().optional(),
   status: z.enum(["active", "suspended", "disabled"]).optional(),
   riskLevel: z.enum(["low", "medium", "high", "critical"]).optional(),
+  targetUrl: z.string().url().nullable().optional(),
 });
 
 const createCredentialSchema = z.object({
@@ -46,19 +48,19 @@ const setPermissionSchema = z.object({
 });
 
 // Integrations
-router.post("/", authenticate, authorize("admin", "analyst"), validate(createIntegrationSchema), create);
+router.post("/", authenticate, authorize("admin"), validate(createIntegrationSchema), create);
 router.get("/", authenticate, list);
 router.get("/:id", authenticate, getById);
-router.patch("/:id", authenticate, authorize("admin", "analyst"), validate(updateIntegrationSchema), update);
+router.patch("/:id", authenticate, authorize("admin"), validate(updateIntegrationSchema), update);
 router.delete("/:id", authenticate, authorize("admin"), remove);
 
 // Credentials
-router.post("/:id/credentials", authenticate, authorize("admin", "analyst"), validate(createCredentialSchema), createCredential);
+router.post("/:id/credentials", authenticate, authorize("admin"), validate(createCredentialSchema), createCredential);
 router.get("/:id/credentials", authenticate, listCredentials);
 router.delete("/:id/credentials/:credentialId", authenticate, authorize("admin"), deleteCredential);
 
 // Permissions
-router.post("/:id/permissions", authenticate, authorize("admin", "analyst"), validate(setPermissionSchema), setPermission);
+router.post("/:id/permissions", authenticate, authorize("admin"), validate(setPermissionSchema), setPermission);
 router.get("/:id/permissions", authenticate, listPermissions);
 router.delete("/:id/permissions/:permissionId", authenticate, authorize("admin"), deletePermission);
 

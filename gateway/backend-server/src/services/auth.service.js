@@ -4,7 +4,7 @@ import db from "../db/index.js";
 import { users } from "../db/schema.js";
 import { generateToken } from "../utils/jwt.js";
 
-export async function register({ name, email, password, role }) {
+export async function register({ name, email, password }) {
   const existing = await db
     .select({ id: users.id })
     .from(users)
@@ -19,7 +19,7 @@ export async function register({ name, email, password, role }) {
 
   const [user] = await db
     .insert(users)
-    .values({ name, email, password: hashedPassword, role: role || "viewer" })
+    .values({ name, email, password: hashedPassword, role: "admin" })
     .returning({ id: users.id, name: users.name, email: users.email, role: users.role });
 
   const token = generateToken({ userId: user.id, role: user.role });

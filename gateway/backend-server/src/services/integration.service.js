@@ -1,9 +1,9 @@
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import db from "../db/index.js";
 import { integrations } from "../db/schema.js";
 import { slugify } from "../utils/helpers.js";
 
-export async function createIntegration({ name, description }) {
+export async function createIntegration({ name, description, targetUrl, ownerId }) {
   const slug = slugify(name);
 
   const existing = await db
@@ -18,21 +18,33 @@ export async function createIntegration({ name, description }) {
 
   const [integration] = await db
     .insert(integrations)
-    .values({ name, slug, description })
+    .values({ name, slug, description, targetUrl, ownerId })
     .returning();
 
   return integration;
 }
 
-export async function getIntegrations() {
-  return db.select().from(integrations).orderBy(integrations.createdAt);
+export async function getIntegrations(userId, isAdmin) {
+  if (isAdmin) {
+    return db.select().from(integrations).orderBy(desc(integrations.createdAt));
+  }
+  return db
+    .select()
+    .from(integrations)
+    .where(eq(integrations.ownerId, userId))
+    .orderBy(desc(integrations.createdAt));
 }
 
-export async function getIntegrationById(id) {
+export async function getIntegrationById(id, userId, isAdmin) {
+  const conditions = [eq(integrations.id, id)];
+  if (!isAdmin) {
+    conditions.push(eq(integrations.ownerId, userId));
+  }
+
   const [integration] = await db
     .select()
     .from(integrations)
-    .where(eq(integrations.id, id))
+    .where(and(...conditions))
     .limit(1);
 
   if (!integration) {
@@ -52,11 +64,16 @@ export async function getIntegrationBySlug(slug) {
   return integration || null;
 }
 
-export async function updateIntegration(id, updates) {
+export async function updateIntegration(id, updates, userId, isAdmin) {
+  const conditions = [eq(integrations.id, id)];
+  if (!isAdmin && userId) {
+    conditions.push(eq(integrations.ownerId, userId));
+  }
+
   const [existing] = await db
     .select()
     .from(integrations)
-    .where(eq(integrations.id, id))
+    .where(and(...conditions))
     .limit(1);
 
   if (!existing) {
@@ -72,11 +89,16 @@ export async function updateIntegration(id, updates) {
   return updated;
 }
 
-export async function deleteIntegration(id) {
+export async function deleteIntegration(id, userId, isAdmin) {
+  const conditions = [eq(integrations.id, id)];
+  if (!isAdmin && userId) {
+    conditions.push(eq(integrations.ownerId, userId));
+  }
+
   const [existing] = await db
     .select()
     .from(integrations)
-    .where(eq(integrations.id, id))
+    .where(and(...conditions))
     .limit(1);
 
   if (!existing) {

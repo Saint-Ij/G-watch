@@ -8,7 +8,22 @@ import { emitEvent } from "../socket/index.js";
 
 const PROXY_TIMEOUT = parseInt(process.env.PROXY_TIMEOUT) || 10000;
 
-export async function handleGatewayRequest(req, res) {
+/**
+ * Transparent proxy handler.
+ *
+ * The third party calls G-Watch as if it were the real backend:
+ *   GET https://gwatch.example.com/customers/123
+ *     Header: X-Api-Key: <integration-api-key>
+ *
+ * G-Watch:
+ *   1. Identifies the integration from the API key
+ *   2. Runs anomaly detection, risk scoring, permission checks
+ *   3. If allowed → proxies to https://api.yourapp.com/customers/123
+ *   4. Returns the real backend response
+ *
+ * The third party never changes their code. They just point at G-Watch.
+ */
+export async function handleTransparentProxy(req, res) {
   const startTime = Date.now();
 
   try {
@@ -21,10 +36,12 @@ export async function handleGatewayRequest(req, res) {
       return res.status(403).json({ error: "Integration is not active" });
     }
 
+    if (!integration.targetUrl) {
+      return res.status(500).json({ error: "Integration has no target URL configured" });
+    }
+
     // 2. Determine resource and action
-    const resourceName = req.headers["x-resource-name"]
-      || (req.body && req.body.resource)
-      || extractResourceFromPath(req.path);
+    const resourceName = extractResourceFromPath(req.path);
     const action = req.method === "GET" ? "read" : req.method === "DELETE" ? "delete" : "write";
 
     // 3. Check permission
@@ -34,7 +51,7 @@ export async function handleGatewayRequest(req, res) {
       action
     );
 
-    // 4. Process through gateway pipeline (anomaly detection, risk scoring, event recording)
+    // 4. Process through gateway pipeline
     const result = await gatewayService.processGatewayRequest(req, {
       integrationId,
       credentialId,
@@ -46,7 +63,7 @@ export async function handleGatewayRequest(req, res) {
     // 5. Update last seen
     await integrationService.updateIntegration(integrationId, { lastSeenAt: new Date() });
 
-    // 6. Emit risk level change event
+    // 6. Emit risk level change
     if (result.risk.level !== integration.riskLevel) {
       emitEvent("integration:risk", {
         integrationId,
@@ -79,24 +96,13 @@ export async function handleGatewayRequest(req, res) {
       });
     }
 
-    // 9. No target URL: return status response (demo/simulator mode)
-    if (!integration.targetUrl) {
-      return res.json({
-        status: "processed",
-        decision: result.decision.decision,
-        riskScore: result.risk.score,
-        riskLevel: result.risk.level,
-        anomalyDetected: result.risk.anomalies.length > 0,
-      });
-    }
-
-    // 10. Proxy to target backend
+    // 9. Proxy to target backend (transparent — same path, same method, same body)
     const proxyStartTime = Date.now();
     try {
       const targetBase = integration.targetUrl.replace(/\/+$/, "");
-      const targetPath = req.originalUrl.replace(/^\/gateway\/[^/]+/, "");
+      // Preserve the original request path exactly as-is
+      const targetPath = req.originalUrl;
 
-      // Build sanitized headers for the proxied request
       const proxyHeaders = {
         "x-gwatch-decision": result.decision.decision,
         "x-gwatch-risk-score": String(result.risk.score),
@@ -106,12 +112,16 @@ export async function handleGatewayRequest(req, res) {
         "x-forwarded-for": getSourceIp(req),
       };
 
-      // Forward content-type and accept from original request
-      if (req.headers["content-type"]) {
-        proxyHeaders["content-type"] = req.headers["content-type"];
-      }
-      if (req.headers["accept"]) {
-        proxyHeaders["accept"] = req.headers["accept"];
+      // Forward all original headers except hop-by-hop and G-Watch internal ones
+      const skipHeaderSet = new Set([
+        "host", "connection", "transfer-encoding", "keep-alive",
+        "proxy-authenticate", "proxy-authorization", "te", "trailers",
+        "upgrade", "x-api-key", "x-records-count",
+      ]);
+      for (const [key, value] of Object.entries(req.headers)) {
+        if (!skipHeaderSet.has(key.toLowerCase())) {
+          proxyHeaders[key] = value;
+        }
       }
 
       const proxyRes = await axios({
@@ -121,16 +131,16 @@ export async function handleGatewayRequest(req, res) {
         data: req.method !== "GET" && req.body ? req.body : undefined,
         params: req.query,
         timeout: PROXY_TIMEOUT,
-        validateStatus: () => true, // don't throw on 4xx/5xx
+        validateStatus: () => true,
         maxRedirects: 5,
       });
 
       const proxyLatency = Date.now() - proxyStartTime;
 
-      // Update the event record with the actual backend response status
+      // Update event with actual backend status
       await eventService.updateEventStatus(result.event.id, proxyRes.status, proxyLatency);
 
-      // Forward backend response headers (skip hop-by-hop headers)
+      // Forward response headers
       const skipHeaders = new Set([
         "transfer-encoding", "content-encoding", "connection",
         "keep-alive", "proxy-authenticate", "proxy-authorization",
@@ -142,13 +152,12 @@ export async function handleGatewayRequest(req, res) {
         }
       }
 
-      // Add G-Watch metadata headers to the response
+      // Add G-Watch metadata to response
       res.setHeader("x-gwatch-decision", result.decision.decision);
       res.setHeader("x-gwatch-risk-score", String(result.risk.score));
       res.setHeader("x-gwatch-risk-level", result.risk.level);
       res.setHeader("x-gwatch-latency", String(proxyLatency));
 
-      // Return the backend's actual response
       const contentType = proxyRes.headers["content-type"] || "application/json";
       if (contentType.includes("application/json")) {
         return res.status(proxyRes.status).json(proxyRes.data);
@@ -156,15 +165,12 @@ export async function handleGatewayRequest(req, res) {
       if (contentType.includes("text/")) {
         return res.status(proxyRes.status).send(proxyRes.data);
       }
-      // Binary or other content types
       return res.status(proxyRes.status).send(Buffer.from(proxyRes.data));
     } catch (proxyErr) {
       const proxyLatency = Date.now() - proxyStartTime;
 
-      // Log the proxy failure
-      console.error(`[Gateway Proxy] ${req.method} ${req.originalUrl} → ${integration.targetUrl} FAILED (${proxyErr.code || proxyErr.message}) in ${proxyLatency}ms`);
+      console.error(`[Transparent Proxy] ${req.method} ${req.originalUrl} → ${integration.targetUrl} FAILED (${proxyErr.code || proxyErr.message}) in ${proxyLatency}ms`);
 
-      // Update event with 502 status
       if (result.event) {
         await eventService.updateEventStatus(result.event.id, 502, proxyLatency);
       }
@@ -174,20 +180,21 @@ export async function handleGatewayRequest(req, res) {
         gatewayDecision: result.decision.decision,
         riskScore: result.risk.score,
         riskLevel: result.risk.level,
-        targetUrl: integration.targetUrl,
         details: proxyErr.code || "ECONNREFUSED",
       });
     }
   } catch (error) {
-    console.error("[Gateway Error]", error);
-    res.status(500).json({ error: "Internal gateway error" });
+    console.error("[Transparent Proxy Error]", error);
+    res.status(500).json({ error: "Internal proxy error" });
   }
 }
 
 function extractResourceFromPath(path) {
   const segments = path.split("/").filter(Boolean);
+  // Skip common prefixes that aren't resource names
+  const skip = new Set(["api", "v1", "v2", "v3"]);
   for (const seg of segments) {
-    if (!seg.startsWith(":") && seg !== "gateway" && seg !== "integrations") {
+    if (!seg.startsWith(":") && !skip.has(seg) && !seg.startsWith("gateway")) {
       return seg;
     }
   }

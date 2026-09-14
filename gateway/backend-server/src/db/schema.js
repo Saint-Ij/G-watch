@@ -40,18 +40,6 @@ export const credentialStatusEnum = pgEnum("credential_status", [
   "expired",
 ]);
 
-export const dataCategoryEnum = pgEnum("data_category", [
-  "customer_profile",
-  "customer_contact",
-  "customer_address",
-  "order_data",
-  "payment_data",
-  "identity_data",
-  "analytics_data",
-  "authentication_data",
-  "internal_data",
-]);
-
 export const sensitivityEnum = pgEnum("sensitivity", [
   "public",
   "internal",
@@ -92,7 +80,7 @@ export const users = pgTable(
     name: varchar("name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
     password: varchar("password", { length: 255 }).notNull(),
-    role: userRoleEnum("role").notNull().default("viewer"),
+    role: userRoleEnum("role").notNull().default("admin"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
@@ -108,6 +96,9 @@ export const integrations = pgTable(
     description: text("description"),
     status: integrationStatusEnum("status").notNull().default("active"),
     riskLevel: riskLevelEnum("risk_level").notNull().default("low"),
+    targetUrl: varchar("target_url", { length: 500 }),
+    managedBy: uuid("managed_by").references(() => users.id),
+    ownerId: uuid("owner_id").notNull().references(() => users.id),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
     lastSeenAt: timestamp("last_seen_at"),
@@ -144,7 +135,7 @@ export const dataResources = pgTable(
   {
     id: uuid("id").primaryKey().defaultRandom(),
     name: varchar("name", { length: 255 }).notNull().unique(),
-    category: dataCategoryEnum("category").notNull(),
+    category: varchar("category", { length: 255 }).notNull(),
     sensitivity: sensitivityEnum("sensitivity").notNull().default("internal"),
     description: text("description"),
   },
@@ -182,11 +173,12 @@ export const integrationEvents = pgTable(
     credentialId: uuid("credential_id").references(
       () => integrationCredentials.id
     ),
+    userId: uuid("user_id").notNull().references(() => users.id),
     method: varchar("method", { length: 10 }).notNull(),
     path: varchar("path", { length: 500 }).notNull(),
     resource: varchar("resource", { length: 255 }),
     action: actionEnum("action"),
-    dataCategory: dataCategoryEnum("data_category"),
+    dataCategory: varchar("data_category", { length: 255 }),
     recordsAccessed: integer("records_accessed").default(0),
     sourceIp: varchar("source_ip", { length: 45 }),
     userAgent: varchar("user_agent", { length: 500 }),
@@ -253,10 +245,16 @@ export const alerts = pgTable(
       .notNull()
       .references(() => integrations.id, { onDelete: "cascade" }),
     eventId: uuid("event_id").references(() => integrationEvents.id),
+    userId: uuid("user_id").notNull().references(() => users.id),
     severity: alertSeverityEnum("severity").notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: text("description"),
     riskScore: integer("risk_score"),
+    recommendedDecision: decisionEnum("recommended_decision"),
+    adminDecision: decisionEnum("admin_decision"),
+    adminDecisionBy: uuid("admin_decision_by").references(() => users.id),
+    adminDecisionAt: timestamp("admin_decision_at"),
+    adminNotes: text("admin_notes"),
     status: alertStatusEnum("status").notNull().default("open"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     acknowledgedAt: timestamp("acknowledged_at"),

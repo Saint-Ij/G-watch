@@ -181,7 +181,7 @@ npm seed
 ```
 
 This creates:
-- 3 test users (admin, analyst, viewer)
+- 1 admin user
 - 5 integrations with different permissions
 - Credentials for each integration
 - 9 data resources
@@ -191,10 +191,8 @@ This creates:
 - Alerts at various severities
 - Audit logs
 
-**Test accounts (password: `password123`):**
+**Test account (password: `password123`):**
 - Admin: `admin@gwatch.dev`
-- Analyst: `analyst@gwatch.dev`
-- Viewer: `viewer@gwatch.dev`
 
 ## Running
 

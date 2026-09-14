@@ -5,17 +5,18 @@ import { recordEvent } from "./event.service.js";
 import { createAlert } from "./alert.service.js";
 import { emitEvent } from "../socket/index.js";
 
-export async function processGatewayRequest(req, { integrationId, credentialId, permission, resource }) {
+export async function processGatewayRequest(req, { integrationId, credentialId, permission, resource, userId }) {
   const startTime = Date.now();
 
   // 1. Build event data
   const eventData = {
     integrationId,
     credentialId: credentialId || null,
+    userId: userId || null,
     method: req.method,
     path: req.originalUrl || req.path,
     resource: resource?.name || null,
-    action: req.method === "GET" ? "read" : req.method === "POST" ? "write" : "delete",
+    action: req.method === "GET" ? "read" : req.method === "DELETE" ? "delete" : "write",
     dataCategory: resource?.category || null,
     recordsAccessed: parseInt(req.headers["x-records-count"]) || 0,
     sourceIp: getSourceIp(req),
@@ -68,10 +69,13 @@ export async function processGatewayRequest(req, { integrationId, credentialId, 
     await createAlert({
       integrationId,
       eventId: event.id,
+      userId: userId || null,
       severity: risk.level,
       title: `Security alert for ${eventData.path}`,
       description: risk.reasons.join("; "),
       riskScore: risk.score,
+      recommendedDecision: actionDecision.decision,
+      anomalies: detection.anomalies,
     });
   }
 

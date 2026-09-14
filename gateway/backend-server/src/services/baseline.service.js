@@ -47,9 +47,9 @@ export async function updateBaseline(integrationId, event) {
   const [updated] = await db
     .update(integrationBaselines)
     .set({
-      avgRequestsPerHour: avgRequestsPerHour || baseline.avgRequestsPerHour,
-      avgRequestsPerMinute: Math.round(avgRequestsPerHour / 60) || baseline.avgRequestsPerMinute,
-      avgRecordsPerRequest: avgRecords || baseline.avgRecordsPerRequest,
+      avgRequestsPerHour: avgRequestsPerHour ?? baseline.avgRequestsPerHour,
+      avgRequestsPerMinute: Math.round(avgRequestsPerHour / 60) ?? baseline.avgRequestsPerMinute,
+      avgRecordsPerRequest: avgRecords ?? baseline.avgRecordsPerRequest,
       normalEndpoints: uniqueEndpoints,
       normalDataCategories: uniqueCategories,
       normalHttpMethods: uniqueMethods,

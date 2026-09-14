@@ -15,12 +15,11 @@ Register a new user.
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "password": "password123",
-  "role": "admin"
+  "password": "password123"
 }
 ```
 
-**Roles:** `admin`, `analyst`, `viewer`
+**Note:** All new accounts automatically receive admin privileges.
 
 **Response (201):**
 ```json
@@ -57,7 +56,7 @@ Get current authenticated user. Requires auth.
 ## Integrations
 
 ### POST /api/integrations
-Create a new integration. Requires `admin` or `analyst` role.
+Create a new integration. Requires admin role.
 
 **Body:**
 ```json
@@ -74,7 +73,7 @@ List all integrations.
 Get integration by ID.
 
 ### PATCH /api/integrations/:id
-Update integration. Requires `admin` or `analyst` role.
+Update integration. Requires admin role.
 
 **Body:**
 ```json
@@ -85,7 +84,7 @@ Update integration. Requires `admin` or `analyst` role.
 ```
 
 ### DELETE /api/integrations/:id
-Delete integration. Requires `admin` role.
+Delete integration. Requires admin role.
 
 ---
 
@@ -258,7 +257,7 @@ List all data resources.
 ## Audit Logs
 
 ### GET /api/audit-logs
-List audit logs. Requires `admin` or `analyst` role. Query params: `userId`, `action`, `resourceType`.
+List audit logs. Requires admin role. Query params: `userId`, `action`, `resourceType`.
 
 ---
 

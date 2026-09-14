@@ -97,24 +97,14 @@ async function seed() {
     .values({ name: "Admin User", email: "admin@gwatch.dev", password: hashedPassword, role: "admin" })
     .returning();
 
-  const [analyst] = await db
-    .insert(users)
-    .values({ name: "Analyst User", email: "analyst@gwatch.dev", password: hashedPassword, role: "analyst" })
-    .returning();
+  console.log(`Created ${1} user`);
 
-  const [viewer] = await db
-    .insert(users)
-    .values({ name: "Viewer User", email: "viewer@gwatch.dev", password: hashedPassword, role: "viewer" })
-    .returning();
-
-  console.log(`Created ${3} users`);
-
-  // 2. Create integrations
+  // 2. Create integrations (each owned by the admin)
   const createdIntegrations = [];
   for (const integ of INTEGRATIONS) {
     const [created] = await db
       .insert(integrations)
-      .values(integ)
+      .values({ ...integ, ownerId: admin.id })
       .returning();
     createdIntegrations.push(created);
   }
@@ -190,13 +180,14 @@ async function seed() {
   for (let i = 0; i < 20; i++) {
     events.push({
       integrationId: deliveryInteg.id,
+      userId: admin.id,
       method: "GET",
       path: `/customers/${randomInt(100, 999)}/address`,
       resource: "customer_addresses",
       action: "read",
       dataCategory: "customer_address",
       recordsAccessed: randomInt(1, 5),
-      sourceIp: randomIp(),
+      sourceIp: `10.0.0.${randomInt(1, 3)}`,
       userAgent: "delivery-app/1.0",
       authenticationMethod: "api_key",
       responseStatus: 200,
@@ -211,6 +202,7 @@ async function seed() {
   // High volume
   events.push({
     integrationId: deliveryInteg.id,
+    userId: admin.id,
     method: "GET",
     path: "/customers",
     resource: "customers",
@@ -231,6 +223,7 @@ async function seed() {
   // New data category (payments)
   events.push({
     integrationId: deliveryInteg.id,
+    userId: admin.id,
     method: "GET",
     path: "/payments",
     resource: "payments",
@@ -251,6 +244,7 @@ async function seed() {
   // Unauthorized access
   events.push({
     integrationId: deliveryInteg.id,
+    userId: admin.id,
     method: "GET",
     path: "/identity-verification",
     resource: "identity_verification",
@@ -271,6 +265,7 @@ async function seed() {
   // Blocked request
   events.push({
     integrationId: deliveryInteg.id,
+    userId: admin.id,
     method: "POST",
     path: "/admin/users",
     resource: "system_config",
@@ -293,6 +288,7 @@ async function seed() {
   for (let i = 0; i < 10; i++) {
     events.push({
       integrationId: paymentInteg.id,
+      userId: admin.id,
       method: "GET",
       path: `/transactions/${randomInt(1000, 9999)}`,
       resource: "payments",
@@ -318,6 +314,7 @@ async function seed() {
   const alertData = [
     {
       integrationId: deliveryInteg.id,
+      userId: admin.id,
       severity: "high",
       title: "Excessive records requested",
       description: "delivery-provider requested 10,000 customer records (normal: 5)",
@@ -326,36 +323,44 @@ async function seed() {
     },
     {
       integrationId: deliveryInteg.id,
+      userId: admin.id,
       severity: "critical",
       title: "Unauthorized payment data access",
       description: "delivery-provider accessed payment data without permission",
       riskScore: 65,
+      recommendedDecision: "alert",
       status: "open",
     },
     {
       integrationId: deliveryInteg.id,
+      userId: admin.id,
       severity: "critical",
       title: "Unauthorized identity data access blocked",
       description: "delivery-provider attempted to access identity verification data",
       riskScore: 90,
+      recommendedDecision: "block",
       status: "acknowledged",
       acknowledgedAt: new Date(),
     },
     {
       integrationId: deliveryInteg.id,
+      userId: admin.id,
       severity: "critical",
       title: "Admin endpoint access blocked",
       description: "delivery-provider attempted to write to admin users endpoint",
       riskScore: 95,
+      recommendedDecision: "block",
       status: "resolved",
       resolvedAt: new Date(),
     },
     {
       integrationId: paymentInteg.id,
+      userId: admin.id,
       severity: "medium",
       title: "Unknown IP detected",
       description: "payment-provider accessed from unfamiliar IP address",
       riskScore: 40,
+      recommendedDecision: "monitor",
       status: "open",
     },
   ];
@@ -370,7 +375,7 @@ async function seed() {
     { userId: admin.id, action: "integration_created", resourceType: "integration", resourceId: deliveryInteg.id, metadata: { name: "delivery-provider" } },
     { userId: admin.id, action: "integration_created", resourceType: "integration", resourceId: paymentInteg.id, metadata: { name: "payment-provider" } },
     { userId: admin.id, action: "credential_created", resourceType: "credential", metadata: { type: "api_key" } },
-    { userId: analyst.id, action: "alert_acknowledged", resourceType: "alert", metadata: { title: "Unauthorized identity data access blocked" } },
+    { userId: admin.id, action: "alert_acknowledged", resourceType: "alert", metadata: { title: "Unauthorized identity data access blocked" } },
     { userId: admin.id, action: "alert_resolved", resourceType: "alert", metadata: { title: "Admin endpoint access blocked" } },
     { userId: admin.id, action: "permission_changed", resourceType: "permission", metadata: { integration: "delivery-provider", resource: "payments", allowed: false } },
   ];
@@ -381,10 +386,8 @@ async function seed() {
   console.log(`Created ${auditEntries.length} audit logs`);
 
   console.log("\nSeed completed!");
-  console.log("\nTest accounts (password: password123):");
-  console.log("  Admin:   admin@gwatch.dev");
-  console.log("  Analyst: analyst@gwatch.dev");
-  console.log("  Viewer:  viewer@gwatch.dev");
+  console.log("\nTest account (password: password123):");
+  console.log("  Admin: admin@gwatch.dev");
 }
 
 seed()

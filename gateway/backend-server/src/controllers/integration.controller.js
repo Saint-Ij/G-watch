@@ -7,7 +7,10 @@ import { getSourceIp } from "../utils/helpers.js";
 
 export async function create(req, res) {
   try {
-    const integration = await integrationService.createIntegration(req.body);
+    const integration = await integrationService.createIntegration({
+      ...req.body,
+      ownerId: req.user.id,
+    });
     await auditService.createAuditLog({
       userId: req.user.id,
       action: "integration_created",
@@ -18,48 +21,53 @@ export async function create(req, res) {
     });
     res.status(201).json({ integration });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to create integration" });
   }
 }
 
 export async function list(req, res) {
   try {
-    const integrations = await integrationService.getIntegrations();
+    const isAdmin = req.user.role === "admin";
+    const integrations = await integrationService.getIntegrations(req.user.id, isAdmin);
     res.json({ integrations });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("[Integration] list error:", error);
+    res.status(500).json({ error: "Failed to fetch integrations" });
   }
 }
 
 export async function getById(req, res) {
   try {
-    const integration = await integrationService.getIntegrationById(req.params.id);
+    const isAdmin = req.user.role === "admin";
+    const integration = await integrationService.getIntegrationById(req.params.id, req.user.id, isAdmin);
     res.json({ integration });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(404).json({ error: "Integration not found" });
   }
 }
 
 export async function update(req, res) {
   try {
-    const integration = await integrationService.updateIntegration(req.params.id, req.body);
+    const isAdmin = req.user.role === "admin";
+    const integration = await integrationService.updateIntegration(req.params.id, req.body, req.user.id, isAdmin);
     await auditService.createAuditLog({
       userId: req.user.id,
       action: "integration_updated",
       resourceType: "integration",
       resourceId: integration.id,
-      metadata: req.body,
+      metadata: { changedFields: Object.keys(req.body) },
       ipAddress: getSourceIp(req),
     });
     res.json({ integration });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to update integration" });
   }
 }
 
 export async function remove(req, res) {
   try {
-    const integration = await integrationService.deleteIntegration(req.params.id);
+    const isAdmin = req.user.role === "admin";
+    const integration = await integrationService.deleteIntegration(req.params.id, req.user.id, isAdmin);
     await auditService.createAuditLog({
       userId: req.user.id,
       action: "integration_deleted",
@@ -70,13 +78,15 @@ export async function remove(req, res) {
     });
     res.json({ message: "Integration deleted" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to delete integration" });
   }
 }
 
 // Credentials
 export async function createCredential(req, res) {
   try {
+    const isAdmin = req.user.role === "admin";
+    await integrationService.getIntegrationById(req.params.id, req.user.id, isAdmin);
     const credential = await credentialService.createCredential({
       integrationId: req.params.id,
       ...req.body,
@@ -91,16 +101,18 @@ export async function createCredential(req, res) {
     });
     res.status(201).json({ credential });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to create credential" });
   }
 }
 
 export async function listCredentials(req, res) {
   try {
+    const isAdmin = req.user.role === "admin";
+    await integrationService.getIntegrationById(req.params.id, req.user.id, isAdmin);
     const credentials = await credentialService.getCredentials(req.params.id);
     res.json({ credentials });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: "Failed to fetch credentials" });
   }
 }
 
@@ -117,7 +129,7 @@ export async function deleteCredential(req, res) {
     });
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to revoke credential" });
   }
 }
 
@@ -138,7 +150,7 @@ export async function setPermission(req, res) {
     });
     res.json({ permission });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to set permission" });
   }
 }
 
@@ -147,7 +159,8 @@ export async function listPermissions(req, res) {
     const permissions = await permissionService.getPermissions(req.params.id);
     res.json({ permissions });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("[Integration] listPermissions error:", error);
+    res.status(500).json({ error: "Failed to fetch permissions" });
   }
 }
 
@@ -156,14 +169,15 @@ export async function deletePermission(req, res) {
     const result = await permissionService.deletePermission(req.params.permissionId);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Failed to delete permission" });
   }
 }
 
 // Data Access Map
 export async function getDataAccess(req, res) {
   try {
-    const integration = await integrationService.getIntegrationById(req.params.id);
+    const isAdmin = req.user.role === "admin";
+    const integration = await integrationService.getIntegrationById(req.params.id, req.user.id, isAdmin);
     const permissions = await permissionService.getPermissions(req.params.id);
 
     const dataAccess = permissions.map((p) => ({
@@ -180,6 +194,6 @@ export async function getDataAccess(req, res) {
       permissions: dataAccess,
     });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(404).json({ error: "Integration not found" });
   }
 }

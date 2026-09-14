@@ -11,7 +11,10 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "seed": "node seed.js",
-    "test": "node --test src/tests/*.test.js"
+    "clear": "node clear.js",
+    "test": "node --test src/tests/*.test.js",
+    "test:proxy": "node test/proxy-test.js",
+    "mock-backend": "node test/mock-backend.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +27,7 @@
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.12.0",

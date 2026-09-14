@@ -1,17 +1,49 @@
 import { eq, and, gt } from "drizzle-orm";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
 import db from "../db/index.js";
 import { integrationCredentials } from "../db/schema.js";
 
 // Simple in-memory rate limiter per integration
 const rateLimits = new Map();
 
+// Credential lookup cache: Maps sha256(credential) -> credential record
+// Populated lazily on first request per credential type, refreshed periodically
+const credentialLookup = new Map();
+let lastCacheRefresh = 0;
+const CACHE_TTL = 60 * 1000; // refresh every 60 seconds
+
+function hashCredential(credential) {
+  return crypto.createHash("sha256").update(credential).digest("hex");
+}
+
+async function refreshCredentialCache() {
+  const activeCredentials = await db
+    .select()
+    .from(integrationCredentials)
+    .where(eq(integrationCredentials.status, "active"));
+
+  credentialLookup.clear();
+  for (const cred of activeCredentials) {
+    // Store by type + hash-of-hash for lookup
+    // We can't reverse bcrypt, so we store the record and compare via bcrypt on match
+    const key = cred.type;
+    if (!credentialLookup.has(key)) {
+      credentialLookup.set(key, []);
+    }
+    credentialLookup.get(key).push(cred);
+  }
+  lastCacheRefresh = Date.now();
+}
+
 const CLEANUP_INTERVAL = 60 * 1000;
 
 setInterval(() => {
   const now = Date.now();
   for (const [key, data] of rateLimits) {
-    data.entries = data.entries.filter((t) => now - t < 60 * 60 * 1000);
-    if (data.entries.length === 0) {
+    data.minuteEntries = data.minuteEntries.filter((t) => now - t < 60 * 1000);
+    data.hourEntries = data.hourEntries.filter((t) => now - t < 3600 * 1000);
+    if (data.minuteEntries.length === 0 && data.hourEntries.length === 0) {
       rateLimits.delete(key);
     }
   }
@@ -45,29 +77,26 @@ export async function validateIntegrationCredential(req, res, next) {
     return res.status(401).json({ error: "No credentials provided" });
   }
 
-  // Look up active credentials and compare
-  const activeCredentials = await db
-    .select()
-    .from(integrationCredentials)
-    .where(
-      and(
-        eq(integrationCredentials.status, "active"),
-        eq(integrationCredentials.type, authMethod)
-      )
-    );
+  // Refresh cache if stale
+  if (Date.now() - lastCacheRefresh > CACHE_TTL || credentialLookup.size === 0) {
+    await refreshCredentialCache();
+  }
 
-  for (const cred of activeCredentials) {
-    // In production you'd compare hashes; here we do a simple string match for dev simplicity
-    if (cred.credentialHash === providedKey) {
+  // Look up credentials by type (indexed filter)
+  const candidates = credentialLookup.get(authMethod) || [];
+
+  for (const cred of candidates) {
+    const matches = await bcrypt.compare(providedKey, cred.credentialHash);
+    if (matches) {
       req.integrationContext.identified = true;
       req.integrationContext.integrationId = cred.integrationId;
       req.integrationContext.credentialId = cred.id;
 
-      // Update lastUsedAt
-      await db
-        .update(integrationCredentials)
+      // Update lastUsedAt (fire and forget)
+      db.update(integrationCredentials)
         .set({ lastUsedAt: new Date() })
-        .where(eq(integrationCredentials.id, cred.id));
+        .where(eq(integrationCredentials.id, cred.id))
+        .catch(() => {});
 
       return next();
     }

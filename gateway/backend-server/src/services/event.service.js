@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import db from "../db/index.js";
 import { integrationEvents } from "../db/schema.js";
 
@@ -11,12 +11,20 @@ export async function recordEvent(eventData) {
   return event;
 }
 
+export async function updateEventStatus(eventId, responseStatus, responseTime) {
+  if (!eventId) return;
+  await db
+    .update(integrationEvents)
+    .set({ responseStatus, responseTime })
+    .where(eq(integrationEvents.id, eventId));
+}
+
 export async function getEventsByIntegration(integrationId, limit = 100) {
   return db
     .select()
     .from(integrationEvents)
     .where(eq(integrationEvents.integrationId, integrationId))
-    .orderBy(integrationEvents.createdAt)
+    .orderBy(desc(integrationEvents.createdAt))
     .limit(limit);
 }
 
@@ -24,7 +32,7 @@ export async function getRecentEvents(limit = 50) {
   return db
     .select()
     .from(integrationEvents)
-    .orderBy(integrationEvents.createdAt)
+    .orderBy(desc(integrationEvents.createdAt))
     .limit(limit);
 }
 

@@ -80,7 +80,7 @@ router.get("/scenarios", authenticate, (req, res) => {
   });
 });
 
-router.post("/simulate-event", authenticate, authorize("admin", "analyst"), async (req, res) => {
+router.post("/simulate-event", authenticate, authorize("admin"), async (req, res) => {
   try {
     const {
       integrationSlug,
@@ -101,7 +101,7 @@ router.post("/simulate-event", authenticate, authorize("admin", "analyst"), asyn
     }
 
     const resourceName = extractResourceFromPath(path);
-    const action = method === "GET" ? "read" : method === "POST" ? "write" : "delete";
+    const action = method === "GET" ? "read" : method === "DELETE" ? "delete" : "write";
 
     const { allowed, permission, resource } = await permissionService.checkPermission(
       integration.id,
@@ -152,7 +152,7 @@ router.post("/simulate-event", authenticate, authorize("admin", "analyst"), asyn
   }
 });
 
-router.post("/simulate-scenario/:name", authenticate, authorize("admin", "analyst"), async (req, res) => {
+router.post("/simulate-scenario/:name", authenticate, authorize("admin"), async (req, res) => {
   try {
     const scenario = scenarios.find((s) => s.name === req.params.name);
     if (!scenario) {
@@ -195,6 +195,7 @@ router.post("/simulate-scenario/:name", authenticate, authorize("admin", "analys
       credentialId: null,
       permission,
       resource,
+      userId: integration.ownerId,
     });
 
     await integrationService.updateIntegration(integration.id, { lastSeenAt: new Date() });
@@ -212,6 +213,86 @@ router.post("/simulate-scenario/:name", authenticate, authorize("admin", "analys
         permissionDenied: result.permissionDenied,
       },
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Batch simulation for false-alarm demo
+router.post("/simulate-batch", authenticate, authorize("admin"), async (req, res) => {
+  try {
+    const { scenarioName, count = 10, delayMs = 200 } = req.body;
+    const scenario = scenarios.find((s) => s.name === scenarioName);
+    if (!scenario) {
+      return res.status(404).json({ error: "Scenario not found" });
+    }
+
+    const integration = await integrationService.getIntegrationBySlug(scenario.integrationSlug);
+    if (!integration) {
+      return res.status(404).json({ error: "Integration not found" });
+    }
+
+    const results = [];
+    for (let i = 0; i < Math.min(count, 100); i++) {
+      const resourceName = extractResourceFromPath(scenario.path);
+    const action = scenario.method === "GET" ? "read" : scenario.method === "DELETE" ? "delete" : "write";
+
+      const { permission, resource } = await permissionService.checkPermission(
+        integration.id, resourceName, action
+      );
+
+      const mockReq = {
+        method: scenario.method,
+        path: scenario.path,
+        originalUrl: scenario.path,
+        body: { resource: resourceName },
+        headers: {
+          "x-forwarded-for": scenario.sourceIp,
+          "user-agent": "dev-simulator",
+        },
+        integrationContext: {
+          identified: true,
+          integrationId: integration.id,
+          credentialId: null,
+          authMethod: "dev_simulation",
+        },
+      };
+
+    const result = await processGatewayRequest(mockReq, {
+      integrationId: integration.id,
+      credentialId: null,
+      permission,
+      resource,
+      userId: integration.ownerId,
+    });
+
+      await integrationService.updateIntegration(integration.id, { lastSeenAt: new Date() });
+
+      results.push({
+        index: i + 1,
+        decision: result.decision.decision,
+        riskScore: result.risk.score,
+        riskLevel: result.risk.level,
+        anomalyDetected: result.risk.anomalies.length > 0,
+      });
+
+      if (delayMs > 0 && i < count - 1) {
+        await new Promise((r) => setTimeout(r, delayMs));
+      }
+    }
+
+    const summary = {
+      total: results.length,
+      allowed: results.filter((r) => r.decision === "allow").length,
+      monitored: results.filter((r) => r.decision === "monitor").length,
+      alerted: results.filter((r) => r.decision === "alert").length,
+      blocked: results.filter((r) => r.decision === "block").length,
+      avgRiskScore: Math.round(results.reduce((s, r) => s + r.riskScore, 0) / results.length),
+      maxRiskScore: Math.max(...results.map((r) => r.riskScore)),
+      anomaliesDetected: results.filter((r) => r.anomalyDetected).length,
+    };
+
+    res.json({ scenario: scenario.name, results, summary });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
