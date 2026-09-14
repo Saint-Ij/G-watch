@@ -1,0 +1,50 @@
+.risk-timeline {
+  padding: 12px 16px;
+}
+
+.risk-timeline-legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.risk-timeline-dot {
+  display: inline-block;
+  width: 8px;
+  height: 3px;
+  border-radius: 1px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.risk-timeline-zone {
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.risk-timeline-zone--low {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.risk-timeline-zone--med {
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+
+.risk-timeline-zone--high {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+}
+
+.risk-timeline-zone--crit {
+  background: var(--red-dim);
+  color: var(--red);
+}

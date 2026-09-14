@@ -1,0 +1,101 @@
+.integrations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.integrations-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.integrations-header h1 { font-size: 20px; font-weight: 700; }
+.integrations-header-count { font-size: 13px; color: var(--text-muted); }
+
+.integrations-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.integration-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.integration-card:hover {
+  border-color: var(--border-default);
+  background: var(--bg-hover);
+}
+
+.integration-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.integration-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-active);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.integration-card-name { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.integration-card-slug { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+
+.integration-card-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.integration-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.integration-card-trust {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.integration-card-trust-score {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.integration-card-time {
+  font-size: 11px;
+  color: var(--text-muted);
+}

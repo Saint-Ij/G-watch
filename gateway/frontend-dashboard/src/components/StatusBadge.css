@@ -1,0 +1,39 @@
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-badge--active {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.status-badge--suspended {
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+
+.status-badge--disabled {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.status-badge--open {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.status-badge--acknowledged {
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+
+.status-badge--resolved {
+  background: var(--green-dim);
+  color: var(--green);
+}

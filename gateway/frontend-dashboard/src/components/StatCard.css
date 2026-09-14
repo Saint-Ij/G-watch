@@ -1,0 +1,51 @@
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: border-color var(--transition-fast);
+}
+
+.stat-card:hover {
+  border-color: var(--border-default);
+}
+
+.stat-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg-active);
+  color: var(--text-secondary);
+}
+
+.stat-card--green .stat-card-icon { background: var(--green-dim); color: var(--green); }
+.stat-card--amber .stat-card-icon { background: var(--amber-dim); color: var(--amber); }
+.stat-card--red .stat-card-icon { background: var(--red-dim); color: var(--red); }
+.stat-card--blue .stat-card-icon { background: var(--blue-dim); color: var(--blue); }
+.stat-card--purple .stat-card-icon { background: var(--purple-dim); color: var(--purple); }
+
+.stat-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-card-value {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-family: var(--font-mono);
+}
+
+.stat-card-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}

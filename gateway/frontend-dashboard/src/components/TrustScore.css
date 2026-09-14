@@ -1,0 +1,24 @@
+.trust-score {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-score-ring {
+  display: block;
+}
+
+.trust-score-value {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.trust-score--large .trust-score-value {
+  font-size: 16px;
+}
+
+.trust-score--default .trust-score-value {
+  font-size: 11px;
+}

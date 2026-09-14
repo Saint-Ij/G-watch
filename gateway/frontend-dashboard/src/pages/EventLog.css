@@ -1,0 +1,127 @@
+.eventlog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.eventlog-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.eventlog-header h1 { font-size: 20px; font-weight: 700; }
+.eventlog-header-count { font-size: 13px; color: var(--text-muted); }
+
+.eventlog-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eventlog-live-btn--on {
+  background: var(--red-dim);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.eventlog-table-wrap {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: auto;
+  max-height: calc(100vh - 180px);
+}
+
+.eventlog-table {
+  width: 100%;
+  font-size: 13px;
+}
+
+.eventlog-table thead {
+  background: var(--bg-elevated);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.eventlog-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.eventlog-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.eventlog-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.eventlog-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.eventlog-row--live {
+  animation: eventflash 0.6s ease-out;
+}
+
+@keyframes eventflash {
+  from { background: rgba(59, 130, 246, 0.08); }
+  to { background: transparent; }
+}
+
+.eventlog-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.eventlog-method {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 5px;
+  background: var(--bg-active);
+  border-radius: var(--radius-sm);
+}
+
+.eventlog-path {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.eventlog-decision {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.eventlog-anomaly {
+  color: var(--amber);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.eventlog-normal {
+  color: var(--text-muted);
+  font-size: 12px;
+}

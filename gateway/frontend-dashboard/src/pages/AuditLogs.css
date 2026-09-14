@@ -1,0 +1,120 @@
+.audit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.audit-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.audit-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.audit-filter {
+  padding: 6px 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+}
+
+.audit-filter:focus {
+  border-color: var(--blue);
+}
+
+.audit-table-wrap {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.audit-table {
+  width: 100%;
+  font-size: 13px;
+}
+
+.audit-table thead {
+  background: var(--bg-elevated);
+}
+
+.audit-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.audit-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.audit-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.audit-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.audit-action {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.audit-resource-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.audit-resource-type {
+  font-size: 12px;
+  text-transform: capitalize;
+  color: var(--text-secondary);
+}
+
+.audit-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.audit-no-meta {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.audit-ip {
+  font-size: 12px;
+}
+
+.audit-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
