@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "description": "Quality wireless headphones available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 28500.0,
+    "stock": 64,
+    "created_at": "2026-03-04T08:27:32.467481Z"
+  },
+  {
+    "id": 2,
+    "name": "Bluetooth Speaker",
+    "description": "Quality bluetooth speaker available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 22000.0,
+    "stock": 6,
+    "created_at": "2026-05-27T04:18:58.009317Z"
+  },
+  {
+    "id": 3,
+    "name": "Smartphone Charger",
+    "description": "Quality smartphone charger available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 6500.0,
+    "stock": 23,
+    "created_at": "2026-01-27T11:16:25.848165Z"
+  },
+  {
+    "id": 4,
+    "name": "USB Flash Drive",
+    "description": "Quality usb flash drive available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 7500.0,
+    "stock": 58,
+    "created_at": "2026-02-23T19:28:14.335925Z"
+  },
+  {
+    "id": 5,
+    "name": "Power Bank",
+    "description": "Quality power bank available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 18000.0,
+    "stock": 147,
+    "created_at": "2025-10-25T23:19:50.952697Z"
+  },
+  {
+    "id": 6,
+    "name": "Phone Tripod",
+    "description": "Quality phone tripod available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 8500.0,
+    "stock": 150,
+    "created_at": "2026-02-23T10:23:45.142055Z"
+  },
+  {
+    "id": 7,
+    "name": "Computer Mouse",
+    "description": "Quality computer mouse available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 9500.0,
+    "stock": 5,
+    "created_at": "2026-02-10T13:36:25.134735Z"
+  },
+  {
+    "id": 8,
+    "name": "Mechanical Keyboard",
+    "description": "Quality mechanical keyboard available from the G-Watch demo store.",
+    "category": "Electronics",
+    "price": 32000.0,
+    "stock": 68,
+    "created_at": "2025-10-16T00:45:41.376866Z"
+  },
+  {
+    "id": 9,
+    "name": "Laptop Backpack",
+    "description": "Quality laptop backpack available from the G-Watch demo store.",
+    "category": "Accessories",
+    "price": 19500.0,
+    "stock": 147,
+    "created_at": "2026-08-01T06:10:05.183433Z"
+  },
+  {
+    "id": 10,
+    "name": "Leather Wallet",
+    "description": "Quality leather wallet available from the G-Watch demo store.",
+    "category": "Accessories",
+    "price": 12000.0,
+    "stock": 10,
+    "created_at": "2026-06-16T16:54:22.016269Z"
+  },
+  {
+    "id": 11,
+    "name": "Wristwatch",
+    "description": "Quality wristwatch available from the G-Watch demo store.",
+    "category": "Accessories",
+    "price": 26000.0,
+    "stock": 44,
+    "created_at": "2025-12-07T05:36:26.967502Z"
+  },
+  {
+    "id": 12,
+    "name": "Sunglasses",
+    "description": "Quality sunglasses available from the G-Watch demo store.",
+    "category": "Accessories",
+    "price": 14500.0,
+    "stock": 120,
+    "created_at": "2026-06-28T20:55:12.892396Z"
+  },
+  {
+    "id": 13,
+    "name": "Travel Bag",
+    "description": "Quality travel bag available from the G-Watch demo store.",
+    "category": "Accessories",
+    "price": 31000.0,
+    "stock": 132,
+    "created_at": "2025-10-15T04:52:59.850760Z"
+  },
+  {
+    "id": 14,
+    "name": "Baseball Cap",
+    "description": "Quality baseball cap available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 7000.0,
+    "stock": 113,
+    "created_at": "2026-05-06T14:03:19.644203Z"
+  },
+  {
+    "id": 15,
+    "name": "Cotton T-Shirt",
+    "description": "Quality cotton t-shirt available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 8500.0,
+    "stock": 71,
+    "created_at": "2026-03-30T02:30:52.249450Z"
+  },
+  {
+    "id": 16,
+    "name": "Denim Trousers",
+    "description": "Quality denim trousers available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 18000.0,
+    "stock": 46,
+    "created_at": "2025-11-27T03:04:24.068086Z"
+  },
+  {
+    "id": 17,
+    "name": "Running Shoes",
+    "description": "Quality running shoes available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 29000.0,
+    "stock": 149,
+    "created_at": "2026-06-27T19:35:25.308536Z"
+  },
+  {
+    "id": 18,
+    "name": "Traditional Fabric",
+    "description": "Quality traditional fabric available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 24000.0,
+    "stock": 111,
+    "created_at": "2026-01-23T13:00:57.645719Z"
+  },
+  {
+    "id": 19,
+    "name": "Casual Shirt",
+    "description": "Quality casual shirt available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 13500.0,
+    "stock": 125,
+    "created_at": "2026-09-02T06:54:57.253339Z"
+  },
+  {
+    "id": 20,
+    "name": "Sandals",
+    "description": "Quality sandals available from the G-Watch demo store.",
+    "category": "Fashion",
+    "price": 11000.0,
+    "stock": 23,
+    "created_at": "2026-05-11T01:09:29.602037Z"
+  },
+  {
+    "id": 21,
+    "name": "Cooking Pot Set",
+    "description": "Quality cooking pot set available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 35000.0,
+    "stock": 120,
+    "created_at": "2025-11-10T05:58:25.164454Z"
+  },
+  {
+    "id": 22,
+    "name": "Table Lamp",
+    "description": "Quality table lamp available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 16500.0,
+    "stock": 89,
+    "created_at": "2025-10-24T20:31:11.342688Z"
+  },
+  {
+    "id": 23,
+    "name": "Bedsheet Set",
+    "description": "Quality bedsheet set available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 21000.0,
+    "stock": 104,
+    "created_at": "2025-12-19T19:06:57.606098Z"
+  },
+  {
+    "id": 24,
+    "name": "Electric Kettle",
+    "description": "Quality electric kettle available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 18500.0,
+    "stock": 85,
+    "created_at": "2025-11-19T16:12:38.847463Z"
+  },
+  {
+    "id": 25,
+    "name": "Wall Clock",
+    "description": "Quality wall clock available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 9500.0,
+    "stock": 82,
+    "created_at": "2025-11-12T03:22:47.574036Z"
+  },
+  {
+    "id": 26,
+    "name": "Storage Basket",
+    "description": "Quality storage basket available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 6000.0,
+    "stock": 26,
+    "created_at": "2026-06-21T13:54:27.240870Z"
+  },
+  {
+    "id": 27,
+    "name": "Standing Fan",
+    "description": "Quality standing fan available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 48000.0,
+    "stock": 41,
+    "created_at": "2025-10-14T19:53:19.361071Z"
+  },
+  {
+    "id": 28,
+    "name": "Water Bottle",
+    "description": "Quality water bottle available from the G-Watch demo store.",
+    "category": "Home",
+    "price": 5500.0,
+    "stock": 84,
+    "created_at": "2026-08-30T18:09:30.939145Z"
+  },
+  {
+    "id": 29,
+    "name": "Python Programming Guide",
+    "description": "Quality python programming guide available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 15000.0,
+    "stock": 105,
+    "created_at": "2026-05-04T15:48:29.623264Z"
+  },
+  {
+    "id": 30,
+    "name": "Cybersecurity Fundamentals",
+    "description": "Quality cybersecurity fundamentals available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 17500.0,
+    "stock": 126,
+    "created_at": "2026-03-05T18:15:40.499455Z"
+  },
+  {
+    "id": 31,
+    "name": "Database Systems Textbook",
+    "description": "Quality database systems textbook available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 19000.0,
+    "stock": 73,
+    "created_at": "2026-04-11T04:55:47.819947Z"
+  },
+  {
+    "id": 32,
+    "name": "Business Strategy Handbook",
+    "description": "Quality business strategy handbook available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 12500.0,
+    "stock": 102,
+    "created_at": "2026-04-16T22:50:17.527292Z"
+  },
+  {
+    "id": 33,
+    "name": "African Fiction Novel",
+    "description": "Quality african fiction novel available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 6500.0,
+    "stock": 140,
+    "created_at": "2026-05-24T02:00:45.355943Z"
+  },
+  {
+    "id": 34,
+    "name": "Study Notebook",
+    "description": "Quality study notebook available from the G-Watch demo store.",
+    "category": "Books",
+    "price": 3500.0,
+    "stock": 9,
+    "created_at": "2026-08-05T11:10:56.816890Z"
+  },
+  {
+    "id": 35,
+    "name": "Body Lotion",
+    "description": "Quality body lotion available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 7500.0,
+    "stock": 116,
+    "created_at": "2026-05-10T03:40:19.450659Z"
+  },
+  {
+    "id": 36,
+    "name": "Perfume Spray",
+    "description": "Quality perfume spray available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 16500.0,
+    "stock": 22,
+    "created_at": "2026-09-12T15:03:44.230266Z"
+  },
+  {
+    "id": 37,
+    "name": "Face Cleanser",
+    "description": "Quality face cleanser available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 8500.0,
+    "stock": 80,
+    "created_at": "2026-01-13T08:31:33.154564Z"
+  },
+  {
+    "id": 38,
+    "name": "Hair Cream",
+    "description": "Quality hair cream available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 5500.0,
+    "stock": 64,
+    "created_at": "2026-09-06T22:40:36.650328Z"
+  },
+  {
+    "id": 39,
+    "name": "Bath Soap Pack",
+    "description": "Quality bath soap pack available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 4500.0,
+    "stock": 82,
+    "created_at": "2026-01-10T18:33:27.632771Z"
+  },
+  {
+    "id": 40,
+    "name": "Sunscreen Lotion",
+    "description": "Quality sunscreen lotion available from the G-Watch demo store.",
+    "category": "Beauty",
+    "price": 12000.0,
+    "stock": 29,
+    "created_at": "2026-02-24T22:12:55.097917Z"
+  },
+  {
+    "id": 41,
+    "name": "Rice Bag 10kg",
+    "description": "Quality rice bag 10kg available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 24500.0,
+    "stock": 103,
+    "created_at": "2026-03-07T13:48:34.837676Z"
+  },
+  {
+    "id": 42,
+    "name": "Vegetable Oil 5L",
+    "description": "Quality vegetable oil 5l available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 14500.0,
+    "stock": 131,
+    "created_at": "2026-05-05T21:55:49.546971Z"
+  },
+  {
+    "id": 43,
+    "name": "Breakfast Cereal",
+    "description": "Quality breakfast cereal available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 6500.0,
+    "stock": 0,
+    "created_at": "2026-07-05T03:47:41.453946Z"
+  },
+  {
+    "id": 44,
+    "name": "Milk Powder",
+    "description": "Quality milk powder available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 8500.0,
+    "stock": 138,
+    "created_at": "2026-04-21T07:36:13.131501Z"
+  },
+  {
+    "id": 45,
+    "name": "Tea Pack",
+    "description": "Quality tea pack available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 4500.0,
+    "stock": 118,
+    "created_at": "2026-01-23T20:24:03.806475Z"
+  },
+  {
+    "id": 46,
+    "name": "Coffee Jar",
+    "description": "Quality coffee jar available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 7000.0,
+    "stock": 105,
+    "created_at": "2025-10-14T09:41:50.950527Z"
+  },
+  {
+    "id": 47,
+    "name": "Biscuit Carton",
+    "description": "Quality biscuit carton available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 9500.0,
+    "stock": 13,
+    "created_at": "2026-03-04T22:53:01.744774Z"
+  },
+  {
+    "id": 48,
+    "name": "Fruit Juice Pack",
+    "description": "Quality fruit juice pack available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 8000.0,
+    "stock": 48,
+    "created_at": "2025-10-01T01:00:57.920174Z"
+  },
+  {
+    "id": 49,
+    "name": "Pasta Carton",
+    "description": "Quality pasta carton available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 18500.0,
+    "stock": 132,
+    "created_at": "2026-01-29T23:37:31.080374Z"
+  },
+  {
+    "id": 50,
+    "name": "Spice Collection",
+    "description": "Quality spice collection available from the G-Watch demo store.",
+    "category": "Food",
+    "price": 6000.0,
+    "stock": 92,
+    "created_at": "2025-12-31T03:48:30.129463Z"
+  }
+]
