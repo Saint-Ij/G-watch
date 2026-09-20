@@ -37,7 +37,7 @@ export async function getIntegrations(userId, isAdmin) {
 
 export async function getIntegrationById(id, userId, isAdmin) {
   const conditions = [eq(integrations.id, id)];
-  if (!isAdmin) {
+  if (!isAdmin && userId) {
     conditions.push(eq(integrations.ownerId, userId));
   }
 
