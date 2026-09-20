@@ -1,4 +1,8 @@
+
+from __future__ import annotations
+
 from datetime import datetime, timezone
+from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel, Field
@@ -28,7 +32,7 @@ class PaymentCreate(BaseModel):
         max_length=50,
     )
 
-    amount: float | None = Field(
+    amount: Optional[float] = Field(
         default=None,
         gt=0,
     )
@@ -44,9 +48,15 @@ class PaymentCreate(BaseModel):
 def list_payments(
     page: int = Query(default=1, ge=1),
     limit: int = Query(default=10, ge=1, le=100),
-    customer_id: int | None = Query(default=None, ge=1),
-    order_id: int | None = Query(default=None, ge=1),
-    payment_status: str | None = Query(
+    customer_id: Optional[int] = Query(
+        default=None,
+        ge=1,
+    ),
+    order_id: Optional[int] = Query(
+        default=None,
+        ge=1,
+    ),
+    payment_status: Optional[str] = Query(
         default=None,
         alias="status",
     ),

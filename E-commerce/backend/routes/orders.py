@@ -1,5 +1,9 @@
+
+from __future__ import annotations
+
 from copy import deepcopy
 from datetime import datetime, timezone
+from typing import List, Optional
 
 from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel, Field
@@ -66,12 +70,12 @@ class OrderCreate(BaseModel):
         ge=1,
     )
 
-    items: list[OrderItemCreate] = Field(
+    items: List[OrderItemCreate] = Field(
         min_length=1,
         max_length=5,
     )
 
-    shipping_address: ShippingAddressCreate | None = None
+    shipping_address: Optional[ShippingAddressCreate] = None
 
 
 @router.get("")
@@ -85,11 +89,11 @@ def list_orders(
         ge=1,
         le=100,
     ),
-    customer_id: int | None = Query(
+    customer_id: Optional[int] = Query(
         default=None,
         ge=1,
     ),
-    order_status: str | None = Query(
+    order_status: Optional[str] = Query(
         default=None,
         alias="status",
     ),
@@ -196,7 +200,7 @@ def create_order(order_data: OrderCreate):
 
     if order_data.shipping_address is not None:
         shipping_address = (
-            order_data.shipping_address.model_dump()
+            order_data.shipping_address.dict()
         )
     else:
         shipping_address = deepcopy(
