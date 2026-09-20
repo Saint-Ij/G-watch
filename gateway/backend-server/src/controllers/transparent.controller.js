@@ -8,6 +8,12 @@ import { emitEvent } from "../socket/index.js";
 
 const PROXY_TIMEOUT = parseInt(process.env.PROXY_TIMEOUT) || 10000;
 
+function setGWatchHeaders(res, result) {
+  res.setHeader("x-gwatch-decision", result.decision.decision);
+  res.setHeader("x-gwatch-risk-score", String(result.risk.score));
+  res.setHeader("x-gwatch-risk-level", result.risk.level);
+}
+
 /**
  * Transparent proxy handler.
  *
@@ -80,6 +86,7 @@ export async function handleTransparentProxy(req, res) {
 
     // 7. Block: never forward
     if (result.decision.decision === "block") {
+      setGWatchHeaders(res, result);
       return res.status(403).json({
         error: "Request blocked",
         riskScore: result.risk.score,
@@ -90,9 +97,12 @@ export async function handleTransparentProxy(req, res) {
 
     // 8. Permission denied: never forward
     if (result.permissionDenied) {
+      setGWatchHeaders(res, result);
       return res.status(403).json({
         error: "Permission denied",
         riskScore: result.risk.score,
+        riskLevel: result.risk.level,
+        reasons: result.risk.reasons,
       });
     }
 
