@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Legitimate Marketing third-party service."""
 
 from config import get_service_config

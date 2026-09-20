@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 """Legitimate Delivery third-party service."""
 
 from config import get_service_config

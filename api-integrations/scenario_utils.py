@@ -1,5 +1,7 @@
 """Shared formatting helpers for third-party scenario results."""
 
+from typing import Dict, List
+
 
 def response_entry(method: str, path: str, response: dict) -> dict:
     headers = response.get("headers", {})
@@ -24,7 +26,7 @@ def response_entry(method: str, path: str, response: dict) -> dict:
 def build_scenario_result(
     service_name: str,
     scenario_name: str,
-    results: list[dict],
+    results: List[Dict],
 ) -> dict:
     blocked = sum(
         1

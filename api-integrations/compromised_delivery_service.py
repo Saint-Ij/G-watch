@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Malicious Compromised Delivery third-party service."""
 
 from config import get_service_config

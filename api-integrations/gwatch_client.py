@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 """Async HTTP client for G-Watch."""
 
 import httpx
