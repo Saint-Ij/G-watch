@@ -6,7 +6,7 @@
     "category": "Electronics",
     "price": 28500.0,
     "stock": 64,
-    "created_at": "2026-03-07T09:09:13.467481Z"
+    "created_at": "2026-03-07T15:09:27.467481Z"
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "category": "Electronics",
     "price": 22000.0,
     "stock": 6,
-    "created_at": "2026-05-30T05:00:39.009317Z"
+    "created_at": "2026-05-30T11:00:53.009317Z"
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "category": "Electronics",
     "price": 6500.0,
     "stock": 23,
-    "created_at": "2026-01-30T11:58:06.848165Z"
+    "created_at": "2026-01-30T17:58:20.848165Z"
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "category": "Electronics",
     "price": 7500.0,
     "stock": 58,
-    "created_at": "2026-02-26T20:09:55.335925Z"
+    "created_at": "2026-02-27T02:10:09.335925Z"
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@
     "category": "Electronics",
     "price": 18000.0,
     "stock": 147,
-    "created_at": "2025-10-29T00:01:31.952697Z"
+    "created_at": "2025-10-29T06:01:45.952697Z"
   },
   {
     "id": 6,
@@ -51,7 +51,7 @@
     "category": "Electronics",
     "price": 8500.0,
     "stock": 150,
-    "created_at": "2026-02-26T11:05:26.142055Z"
+    "created_at": "2026-02-26T17:05:40.142055Z"
   },
   {
     "id": 7,
@@ -60,7 +60,7 @@
     "category": "Electronics",
     "price": 9500.0,
     "stock": 5,
-    "created_at": "2026-02-13T14:18:06.134735Z"
+    "created_at": "2026-02-13T20:18:20.134735Z"
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@
     "category": "Electronics",
     "price": 32000.0,
     "stock": 68,
-    "created_at": "2025-10-19T01:27:22.376866Z"
+    "created_at": "2025-10-19T07:27:36.376866Z"
   },
   {
     "id": 9,
@@ -78,7 +78,7 @@
     "category": "Accessories",
     "price": 19500.0,
     "stock": 147,
-    "created_at": "2026-08-04T06:51:46.183433Z"
+    "created_at": "2026-08-04T12:52:00.183433Z"
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@
     "category": "Accessories",
     "price": 12000.0,
     "stock": 10,
-    "created_at": "2026-06-19T17:36:03.016269Z"
+    "created_at": "2026-06-19T23:36:17.016269Z"
   },
   {
     "id": 11,
@@ -96,7 +96,7 @@
     "category": "Accessories",
     "price": 26000.0,
     "stock": 44,
-    "created_at": "2025-12-10T06:18:07.967502Z"
+    "created_at": "2025-12-10T12:18:21.967502Z"
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@
     "category": "Accessories",
     "price": 14500.0,
     "stock": 120,
-    "created_at": "2026-07-01T21:36:53.892396Z"
+    "created_at": "2026-07-02T03:37:07.892396Z"
   },
   {
     "id": 13,
@@ -114,7 +114,7 @@
     "category": "Accessories",
     "price": 31000.0,
     "stock": 132,
-    "created_at": "2025-10-18T05:34:40.850760Z"
+    "created_at": "2025-10-18T11:34:54.850760Z"
   },
   {
     "id": 14,
@@ -123,7 +123,7 @@
     "category": "Fashion",
     "price": 7000.0,
     "stock": 113,
-    "created_at": "2026-05-09T14:45:00.644203Z"
+    "created_at": "2026-05-09T20:45:14.644203Z"
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@
     "category": "Fashion",
     "price": 8500.0,
     "stock": 71,
-    "created_at": "2026-04-02T03:12:33.249450Z"
+    "created_at": "2026-04-02T09:12:47.249450Z"
   },
   {
     "id": 16,
@@ -141,7 +141,7 @@
     "category": "Fashion",
     "price": 18000.0,
     "stock": 46,
-    "created_at": "2025-11-30T03:46:05.068086Z"
+    "created_at": "2025-11-30T09:46:19.068086Z"
   },
   {
     "id": 17,
@@ -150,7 +150,7 @@
     "category": "Fashion",
     "price": 29000.0,
     "stock": 149,
-    "created_at": "2026-06-30T20:17:06.308536Z"
+    "created_at": "2026-07-01T02:17:20.308536Z"
   },
   {
     "id": 18,
@@ -159,7 +159,7 @@
     "category": "Fashion",
     "price": 24000.0,
     "stock": 111,
-    "created_at": "2026-01-26T13:42:38.645719Z"
+    "created_at": "2026-01-26T19:42:52.645719Z"
   },
   {
     "id": 19,
@@ -168,7 +168,7 @@
     "category": "Fashion",
     "price": 13500.0,
     "stock": 125,
-    "created_at": "2026-09-05T07:36:38.253339Z"
+    "created_at": "2026-09-05T13:36:52.253339Z"
   },
   {
     "id": 20,
@@ -177,7 +177,7 @@
     "category": "Fashion",
     "price": 11000.0,
     "stock": 23,
-    "created_at": "2026-05-14T01:51:10.602037Z"
+    "created_at": "2026-05-14T07:51:24.602037Z"
   },
   {
     "id": 21,
@@ -186,7 +186,7 @@
     "category": "Home",
     "price": 35000.0,
     "stock": 120,
-    "created_at": "2025-11-13T06:40:06.164454Z"
+    "created_at": "2025-11-13T12:40:20.164454Z"
   },
   {
     "id": 22,
@@ -195,7 +195,7 @@
     "category": "Home",
     "price": 16500.0,
     "stock": 89,
-    "created_at": "2025-10-27T21:12:52.342688Z"
+    "created_at": "2025-10-28T03:13:06.342688Z"
   },
   {
     "id": 23,
@@ -204,7 +204,7 @@
     "category": "Home",
     "price": 21000.0,
     "stock": 104,
-    "created_at": "2025-12-22T19:48:38.606098Z"
+    "created_at": "2025-12-23T01:48:52.606098Z"
   },
   {
     "id": 24,
@@ -213,7 +213,7 @@
     "category": "Home",
     "price": 18500.0,
     "stock": 85,
-    "created_at": "2025-11-22T16:54:19.847463Z"
+    "created_at": "2025-11-22T22:54:33.847463Z"
   },
   {
     "id": 25,
@@ -222,7 +222,7 @@
     "category": "Home",
     "price": 9500.0,
     "stock": 82,
-    "created_at": "2025-11-15T04:04:28.574036Z"
+    "created_at": "2025-11-15T10:04:42.574036Z"
   },
   {
     "id": 26,
@@ -231,7 +231,7 @@
     "category": "Home",
     "price": 6000.0,
     "stock": 26,
-    "created_at": "2026-06-24T14:36:08.240870Z"
+    "created_at": "2026-06-24T20:36:22.240870Z"
   },
   {
     "id": 27,
@@ -240,7 +240,7 @@
     "category": "Home",
     "price": 48000.0,
     "stock": 41,
-    "created_at": "2025-10-17T20:35:00.361071Z"
+    "created_at": "2025-10-18T02:35:14.361071Z"
   },
   {
     "id": 28,
@@ -249,7 +249,7 @@
     "category": "Home",
     "price": 5500.0,
     "stock": 84,
-    "created_at": "2026-09-02T18:51:11.939145Z"
+    "created_at": "2026-09-03T00:51:25.939145Z"
   },
   {
     "id": 29,
@@ -258,7 +258,7 @@
     "category": "Books",
     "price": 15000.0,
     "stock": 105,
-    "created_at": "2026-05-07T16:30:10.623264Z"
+    "created_at": "2026-05-07T22:30:24.623264Z"
   },
   {
     "id": 30,
@@ -267,7 +267,7 @@
     "category": "Books",
     "price": 17500.0,
     "stock": 126,
-    "created_at": "2026-03-08T18:57:21.499455Z"
+    "created_at": "2026-03-09T00:57:35.499455Z"
   },
   {
     "id": 31,
@@ -276,7 +276,7 @@
     "category": "Books",
     "price": 19000.0,
     "stock": 73,
-    "created_at": "2026-04-14T05:37:28.819947Z"
+    "created_at": "2026-04-14T11:37:42.819947Z"
   },
   {
     "id": 32,
@@ -285,7 +285,7 @@
     "category": "Books",
     "price": 12500.0,
     "stock": 102,
-    "created_at": "2026-04-19T23:31:58.527292Z"
+    "created_at": "2026-04-20T05:32:12.527292Z"
   },
   {
     "id": 33,
@@ -294,7 +294,7 @@
     "category": "Books",
     "price": 6500.0,
     "stock": 140,
-    "created_at": "2026-05-27T02:42:26.355943Z"
+    "created_at": "2026-05-27T08:42:40.355943Z"
   },
   {
     "id": 34,
@@ -303,7 +303,7 @@
     "category": "Books",
     "price": 3500.0,
     "stock": 9,
-    "created_at": "2026-08-08T11:52:37.816890Z"
+    "created_at": "2026-08-08T17:52:51.816890Z"
   },
   {
     "id": 35,
@@ -312,7 +312,7 @@
     "category": "Beauty",
     "price": 7500.0,
     "stock": 116,
-    "created_at": "2026-05-13T04:22:00.450659Z"
+    "created_at": "2026-05-13T10:22:14.450659Z"
   },
   {
     "id": 36,
@@ -321,7 +321,7 @@
     "category": "Beauty",
     "price": 16500.0,
     "stock": 22,
-    "created_at": "2026-09-15T15:45:25.230266Z"
+    "created_at": "2026-09-15T21:45:39.230266Z"
   },
   {
     "id": 37,
@@ -330,7 +330,7 @@
     "category": "Beauty",
     "price": 8500.0,
     "stock": 80,
-    "created_at": "2026-01-16T09:13:14.154564Z"
+    "created_at": "2026-01-16T15:13:28.154564Z"
   },
   {
     "id": 38,
@@ -339,7 +339,7 @@
     "category": "Beauty",
     "price": 5500.0,
     "stock": 64,
-    "created_at": "2026-09-09T23:22:17.650328Z"
+    "created_at": "2026-09-10T05:22:31.650328Z"
   },
   {
     "id": 39,
@@ -348,7 +348,7 @@
     "category": "Beauty",
     "price": 4500.0,
     "stock": 82,
-    "created_at": "2026-01-13T19:15:08.632771Z"
+    "created_at": "2026-01-14T01:15:22.632771Z"
   },
   {
     "id": 40,
@@ -357,7 +357,7 @@
     "category": "Beauty",
     "price": 12000.0,
     "stock": 29,
-    "created_at": "2026-02-27T22:54:36.097917Z"
+    "created_at": "2026-02-28T04:54:50.097917Z"
   },
   {
     "id": 41,
@@ -366,7 +366,7 @@
     "category": "Food",
     "price": 24500.0,
     "stock": 103,
-    "created_at": "2026-03-10T14:30:15.837676Z"
+    "created_at": "2026-03-10T20:30:29.837676Z"
   },
   {
     "id": 42,
@@ -375,7 +375,7 @@
     "category": "Food",
     "price": 14500.0,
     "stock": 131,
-    "created_at": "2026-05-08T22:37:30.546971Z"
+    "created_at": "2026-05-09T04:37:44.546971Z"
   },
   {
     "id": 43,
@@ -384,7 +384,7 @@
     "category": "Food",
     "price": 6500.0,
     "stock": 0,
-    "created_at": "2026-07-08T04:29:22.453946Z"
+    "created_at": "2026-07-08T10:29:36.453946Z"
   },
   {
     "id": 44,
@@ -393,7 +393,7 @@
     "category": "Food",
     "price": 8500.0,
     "stock": 138,
-    "created_at": "2026-04-24T08:17:54.131501Z"
+    "created_at": "2026-04-24T14:18:08.131501Z"
   },
   {
     "id": 45,
@@ -402,7 +402,7 @@
     "category": "Food",
     "price": 4500.0,
     "stock": 118,
-    "created_at": "2026-01-26T21:05:44.806475Z"
+    "created_at": "2026-01-27T03:05:58.806475Z"
   },
   {
     "id": 46,
@@ -411,7 +411,7 @@
     "category": "Food",
     "price": 7000.0,
     "stock": 105,
-    "created_at": "2025-10-17T10:23:31.950527Z"
+    "created_at": "2025-10-17T16:23:45.950527Z"
   },
   {
     "id": 47,
@@ -420,7 +420,7 @@
     "category": "Food",
     "price": 9500.0,
     "stock": 13,
-    "created_at": "2026-03-07T23:34:42.744774Z"
+    "created_at": "2026-03-08T05:34:56.744774Z"
   },
   {
     "id": 48,
@@ -429,7 +429,7 @@
     "category": "Food",
     "price": 8000.0,
     "stock": 48,
-    "created_at": "2025-10-04T01:42:38.920174Z"
+    "created_at": "2025-10-04T07:42:52.920174Z"
   },
   {
     "id": 49,
@@ -438,7 +438,7 @@
     "category": "Food",
     "price": 18500.0,
     "stock": 132,
-    "created_at": "2026-02-02T00:19:12.080374Z"
+    "created_at": "2026-02-02T06:19:26.080374Z"
   },
   {
     "id": 50,
@@ -447,6 +447,6 @@
     "category": "Food",
     "price": 6000.0,
     "stock": 92,
-    "created_at": "2026-01-03T04:30:11.129463Z"
+    "created_at": "2026-01-03T10:30:25.129463Z"
   }
 ]

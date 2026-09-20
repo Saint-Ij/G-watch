@@ -5,6 +5,7 @@ from typing import Dict, List
 
 def response_entry(method: str, path: str, response: dict) -> dict:
     headers = response.get("headers", {})
+    body = response.get("data")
     risk_score = headers.get("x-gwatch-risk-score")
     decision = headers.get("x-gwatch-decision")
 
@@ -13,7 +14,7 @@ def response_entry(method: str, path: str, response: dict) -> dict:
     elif decision is None and response["status"] == 429:
         decision = "rate_limit"
 
-    return {
+    entry = {
         "method": method,
         "path": path,
         "status": response["status"],
@@ -21,6 +22,11 @@ def response_entry(method: str, path: str, response: dict) -> dict:
         "gwatchRiskLevel": headers.get("x-gwatch-risk-level"),
         "gwatchRiskScore": int(risk_score) if risk_score is not None else None,
     }
+
+    if response["status"] >= 400:
+        entry["error"] = body
+
+    return entry
 
 
 def build_scenario_result(
